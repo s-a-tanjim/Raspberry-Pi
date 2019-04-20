@@ -29,9 +29,10 @@ try:
             pass
         stop=time.time()
 
-        distance = (stop-start)*170
+        distance = (stop-start)*170*100     #in cm unit
 
         print(distance)
+        time.sleep(1)   #1 second delay
 
 except KeyboardInterrupt:
   print("Ctl C pressed - ending program")
