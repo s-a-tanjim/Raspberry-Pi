@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Servo Control</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    .slidecontainer {
+      width: 100%;
+      text-align: center;
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      width: 70%;
+      height: 25px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+
+    .slider:hover {
+      opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      background: #4CAF50;
+      cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      background: #4CAF50;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <div class="slidecontainer">
+      <p style="margin: 20px;font-size: 20px;">Control Servo 1</p>
+      <input id="servo-1" type="range" min="1" max="180" step="1" value="90" class="slider"></input>
+      <p>Value: '<span style="font-weight: 900;" id="value-1">--</span>' degree</p>
+    </div>
+    <div class="slidecontainer">
+      <p style="margin: 20px;font-size: 20px;">Control Servo 2</p>
+      <input id="servo-2" type="range" min="1" max="180" step="1" value="90" class="slider"></input>
+      <p>Value: '<span style="font-weight: 900;" id="value-2">--</span>' degree</p>
+    </div>
+    <div class="slidecontainer">
+      <p style="margin: 20px;font-size: 20px;">Control Servo 3</p>
+      <input id="servo-3" type="range" min="1" max="180" step="1" value="90" class="slider"></input>
+      <p>Value: '<span style="font-weight: 900;" id="value-3">--</span>' degree</p>
+    </div>
+  </div>
+  <script>
+    var servo1 = document.getElementById('servo-1');
+    var servo2 = document.getElementById('servo-2');
+    var servo3 = document.getElementById('servo-3');
+    servo1.oninput = function () {
+      document.getElementById('value-1').innerHTML = this.value;
+      updateDatabase(this.value,1);
+    }
+    servo2.oninput = function () {
+      document.getElementById('value-2').innerHTML = this.value;
+      updateDatabase(this.value,2);
+    }
+    servo3.oninput = function () {
+      document.getElementById('value-3').innerHTML = this.value;
+      updateDatabase(this.value,3);
+    }
+
+    function updateDatabase(value,servoNo) {
+      if (value == "") {
+        return;
+      }
+      if (window.XMLHttpRequest) {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+      } else { // code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+	  var id = "value-"+servoNo;
+          document.getElementById(id).innerHTML = this.responseText;
+        }
+      }
+      xmlhttp.open("GET", "updateServoValueServer.php?degree=" + value+"&servoNo="+servoNo, true);
+      xmlhttp.send();
+    }
+  </script>
+</body>
+
+</html>

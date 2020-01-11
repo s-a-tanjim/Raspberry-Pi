@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Project Robotic Arm</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    .iframe-container{
+      width: 100%;
+      margin-top: 20px;
+      border-bottom: 1px solid #111;
+      text-align: center;
+    }
+
+    .header {
+      text-align: center;
+    }
+
+    .iframe-class {
+      height: 400px;
+      width: 100%;
+      border: none;
+    }
+
+    button {
+      margin: 2px auto;
+      text-align: center;
+      background-color: #111;
+      color: white;
+      padding: 10px;
+      border: 1px solid #111;
+      transition: .3s all;
+    }
+
+    button:hover {
+      color: #111;
+      background-color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="iframe-container">
+    <h2 class="header">Pi Camera</h2>
+    <iframe class="iframe-class" src="http://pi.local:8000/index.html"></iframe>
+    <button onClick="ReloadIframe(0)">Refresh</button>
+  </div>
+  <div class="iframe-container">
+    <h2 class="header">Servo Control</h2>
+    <iframe class="iframe-class" src="ServoControl.html"></iframe>
+    <button onClick="ReloadIframe(1)">Refresh</button>
+  </div>
+  <div class="iframe-container">
+    <h2 class="header">GPS Data</h2>
+    <iframe class="iframe-class" src="getGPSValue.php" style="height:250px"></iframe>
+    <button onClick="ReloadIframe(2)">Refresh</button>
+  </div>
+
+  <script>
+    function ReloadIframe(val) {
+      //console.log(document.getElementsByClassName('iframe-class')[val].src);
+      document.getElementsByClassName('iframe-class')[val].src = document.getElementsByClassName('iframe-class')[val]
+        .src;
+    }
+  </script>
+</body>
+
+</html>
