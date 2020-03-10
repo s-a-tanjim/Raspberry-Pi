@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+ <title>Car Control</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <style>
+.arrow-button{
+ display:inline-block;
+ font-size:50px;
+ margin:10px;
+ padding:15px 30px;
+ background-color:#47B6B6;
+}
+.button-input{
+ text-align:center;
+}
+
+.keyboard-input{
+ border:1px solid #111;
+ padding:10px;
+}
+
+#car-direction{
+ font-size:25px;
+ text-align:center;
+}
+
+.no-text-select {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+  supported by Chrome, Opera and Firefox */
+}
+ </style>
+</head>
+
+<body>
+<div class="keyboard-input">
+ <p>You can directly control from here using keyboard!(Keys -> W,S,A,D,X)</p>
+ <input id="keyboard-input-field" type="text" onkeypress="keyPress(event)" autofocus>
+</div>
+<p id="car-direction" style="margin:10px;">--</p>
+
+<div class="button-input">
+  <div>
+    <div class="arrow-button no-text-select">&#8593;</div>
+  </div>
+
+  <div>
+    <div class="arrow-button no-text-select">&#8592;</div>
+    <div class="arrow-button no-text-select">&#8595;</div>
+    <div class="arrow-button no-text-select">&#8594;</div>
+  </div>
+  <div>
+    <div class="arrow-button no-text-select">&#9632;</div>
+  </div>
+</div>
+
+<script>
+
+function keyPress(event){
+  var x = event.which || event.keyCode;
+  if(x==119 || x==87){  // Press W
+    document.getElementById("car-direction").innerHTML = "Forward";
+    updateDatabase("f");    
+  }
+  else if(x==115 || x==83 ){ //Press S
+    document.getElementById("car-direction").innerHTML = "Backward";
+    updateDatabase("b");
+  }
+  else if(x==97 || x==65 ){
+    document.getElementById("car-direction").innerHTML = "Left";
+    updateDatabase("l");
+  }
+  else if(x==100 || x==68 ){
+    document.getElementById("car-direction").innerHTML = "Right";
+    updateDatabase("r");
+  }
+  else if(x==120 || x==88){
+    document.getElementById("car-direction").innerHTML = "Stop!";
+    updateDatabase("s");
+  }
+  else{
+    document.getElementById("car-direction").innerHTML = "Invalid!";
+  }
+  
+  document.getElementById("keyboard-input-field").value="";  //clear input field
+}
+
+
+function updateDatabase(value) {
+      if (value == "") {
+        return;
+      }
+      if (window.XMLHttpRequest) {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+      } else { // code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+         // document.getElementById("car-direction").innerHTML = this.responseText;
+        }
+      }
+
+      xmlhttp.open("GET", "updateCarValueServer.php?direction=" + value, true);
+      xmlhttp.send();
+}
+
+
+ </script>
+
+</body>
+</html>

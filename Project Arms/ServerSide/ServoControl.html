@@ -60,11 +60,19 @@
       <input id="servo-3" type="range" min="1" max="180" step="1" value="90" class="slider"></input>
       <p>Value: '<span style="font-weight: 900;" id="value-3">--</span>' degree</p>
     </div>
+    <div class="slidecontainer">
+      <p style="margin: 20px;font-size: 20px;">Control Servo 4</p>
+      <input id="servo-4" type="range" min="1" max="180" step="1" value="90" class="slider"></input>
+      <p>Value: '<span style="font-weight: 900;" id="value-4">--</span>' degree</p>
+    </div>
+
   </div>
   <script>
     var servo1 = document.getElementById('servo-1');
     var servo2 = document.getElementById('servo-2');
     var servo3 = document.getElementById('servo-3');
+    var servo4 = document.getElementById('servo-4');
+
     servo1.oninput = function () {
       document.getElementById('value-1').innerHTML = this.value;
       updateDatabase(this.value,1);
@@ -77,6 +85,12 @@
       document.getElementById('value-3').innerHTML = this.value;
       updateDatabase(this.value,3);
     }
+    servo4.oninput = function () {
+      document.getElementById('value-4').innerHTML = this.value;
+      updateDatabase(this.value,4);
+    }
+
+
 
     function updateDatabase(value,servoNo) {
       if (value == "") {
